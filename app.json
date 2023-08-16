@@ -2,6 +2,7 @@
   "expo": {
     "name": "shoplanner-v2",
     "slug": "shoplanner-v2",
+    "scheme": "shoplanner-v2",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,13 +16,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pedigru.shoplanner"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.pedigru.shoplanner"
     },
     "web": {
       "favicon": "./assets/favicon.png"

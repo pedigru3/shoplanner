@@ -1,20 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-get-random-values'
+
+import { Nunito_700Bold, Nunito_400Regular, useFonts } from '@expo-google-fonts/nunito';
+import { Jost_400Regular, Jost_700Bold } from '@expo-google-fonts/jost';
+import { NativeBaseProvider } from 'native-base';
+
+import { StatusBar } from 'react-native';
+import { ThemeProvider } from 'styled-components/native';
+
+import { AppProvider, UserProvider } from '@realm/react'
+
+import { REAML_APP_ID } from '@env'
+
+import { SignIn } from './src/screens/SignIn';
+import { Loading } from './src/components/Loading';
+
+import theme from './src/theme';
+
+import { Routes } from './src/routes';
+import { RealmProvider } from './src/libs/realm';
+import { ShoppingListContextProvider } from './src/context/ShoppingListContext';
 
 export default function App() {
+
+  const [ isFontsLoaded ] = useFonts({
+    Nunito_400Regular,
+    Nunito_700Bold,
+    Jost_400Regular,
+    Jost_700Bold
+  })
+  
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppProvider id={REAML_APP_ID}>
+      <ThemeProvider theme={theme}>
+        <NativeBaseProvider>
+        <StatusBar barStyle='dark-content' backgroundColor='transparent' translucent />
+        {
+          isFontsLoaded ?
+          <UserProvider fallback={SignIn}>
+            <RealmProvider>
+              <ShoppingListContextProvider>
+                <Routes/>
+              </ShoppingListContextProvider>
+            </RealmProvider>
+          </UserProvider>
+          : <Loading/>
+        }
+        </NativeBaseProvider>
+      </ ThemeProvider>
+    </AppProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
