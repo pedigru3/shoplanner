@@ -1,6 +1,7 @@
 import { Realm } from '@realm/react'
 import { Price } from './Price'
 import { Item } from './Item'
+import { BSON } from 'realm'
 
 type GenerateProps = {
   quantity: number

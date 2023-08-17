@@ -11,6 +11,10 @@ import { parseBRLCurrent } from '@utils/parseBRLCurrent';
 import { updatePrice } from '@repositories/updatePrice';
 import { updateItemName } from '@repositories/updateItemName';
 
+import Toast from 'react-native-toast-message';
+import { CheckPriceChangeResult, checkPriceChange } from '@utils/checkPriceChange';
+
+
 type Props = {
   shoppingListItem: ShoppingListItem
 }
@@ -56,6 +60,17 @@ export function ShoppingListItemComponent({ shoppingListItem } : Props) {
     )
   }
 
+  const showToast = ({message, type}: CheckPriceChangeResult) => {
+      setTimeout(() => {
+        Toast.hide()
+        Toast.show({
+          type,
+          text1: message,
+          position: 'bottom',
+        }) 
+      }, 500)
+  }
+
   function handleNameUpdate(){
     try {
       updateItemName({
@@ -85,7 +100,7 @@ export function ShoppingListItemComponent({ shoppingListItem } : Props) {
       console.log(error)
       Alert.alert('Atualizar preço', 'Erro ao atualizar preço')
     }
-    return 
+    return  showToast(checkPriceChange({ shoppingListItem, currentPrice: price }))
   }
 
   function handleQuantityUpdate(){

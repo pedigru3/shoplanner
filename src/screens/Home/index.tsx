@@ -3,35 +3,22 @@ import { PhotoUser } from '../../components/PhotoUser';
 import { Container, Header, Hello, Name, Description, Value, Market } from './styles';
 import { useUser } from '@realm/react';
 import { ShoppingListItemComponent } from '@components/ShoppingListItemComponent';
-import { useRealm } from '@libs/realm';
-import { getShoppingListId } from '@storage/shoppingList/getShoppingListId';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { Alert } from 'react-native';
+import { useObject, useRealm } from '@libs/realm';
 import { ShoppingList } from '@libs/realm/schemas/ShoppingList';
 import { LoadingIndicator } from '@components/Loading/styles';
-import { BSON } from 'realm';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
 import { AddItem } from '@components/AddItem';
+import { useShoppingList } from '@hooks/useShoppingList';
+import { BSON } from 'realm';
+import { useEffect, useState } from 'react';
 
 export function Home() {
   const user = useUser()
 
-  const currentId = useRef<string|null>(null)
-  const realm = useRealm()
-
+  const { id, saveId, isLoading } = useShoppingList()
   const [shoppingList, setShoppingList] = useState<ShoppingList | null>(null)
 
-  async function getId() {
-    try {
-      currentId.current = await getShoppingListId()
-      const shop = realm.objects<ShoppingList>('ShoppingList').filtered("_id = $0", new BSON.UUID(currentId.current!))[0]
-      setShoppingList(shop)
-    } catch (error) {
-      console.log(error)
-      Alert.alert('Home', 'Erro ao buscar ID')
-    }
-  }
+  const realm = useRealm()
 
   function getTotal(shoppingList: ShoppingList){
     let sum:number = 0;
@@ -41,18 +28,24 @@ export function Home() {
     return sum.toFixed(2);
   }
 
-  useEffect(() => {
-    realm.addListener('change', ()=> getId())
+  async function getShoppingList(){
+     if (id != ''){
+      const result = realm.objects<ShoppingList>('ShoppingList').filtered('_id = $0', id)[0]
+      setShoppingList(result as ShoppingList)
+     } else {
+      setShoppingList(null)
+     }
+  }
 
-    return () => realm.removeListener('change', getId)
+  useEffect(() => {
+    realm.addListener('change', ()=> getShoppingList())
+
+    return () => realm.removeListener('change', getShoppingList)
   }, [])
 
-
-  useFocusEffect(
-    useCallback(() => {
-      getId()
-    }, [])
-  )
+  useEffect(() => {
+    getShoppingList()
+  }, [])
 
 
   return (

@@ -19,6 +19,8 @@ import theme from './src/theme';
 import { Routes } from './src/routes';
 import { RealmProvider } from './src/libs/realm';
 import { ShoppingListContextProvider } from './src/context/ShoppingListContext';
+import Toast from 'react-native-toast-message';
+import { toastConfig } from '@libs/toast';
 
 export default function App() {
 
@@ -31,6 +33,7 @@ export default function App() {
   
 
   return (
+    <>
     <AppProvider id={REAML_APP_ID}>
       <ThemeProvider theme={theme}>
         <NativeBaseProvider>
@@ -49,5 +52,7 @@ export default function App() {
         </NativeBaseProvider>
       </ ThemeProvider>
     </AppProvider>
+    <Toast config={toastConfig} />
+    </>
   );
 }

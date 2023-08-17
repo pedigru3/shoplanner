@@ -18,7 +18,6 @@ export function AddItem({ shoppingList } : Props) {
   const [itemName, setItemName] = useState('')
 
   const realm = useRealm()
-  const storagedItems = useQuery(Item)
 
   function handleNewItem(){
     if (itemName === ''){

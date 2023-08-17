@@ -1,4 +1,5 @@
 import { Realm } from '@realm/react'
+import { BSON } from 'realm'
 
 type GenerateProps = {
   value: number

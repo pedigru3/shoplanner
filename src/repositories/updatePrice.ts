@@ -7,16 +7,16 @@ type Props = {
   value: number
 }
 
-export function updatePrice({realm, shoppingListItem, value}: Props): Price{
-  const price = realm.create('Price', Price.generate({
-    value,
-  }))
+export function updatePrice({realm, shoppingListItem, value}: Props){
+  
 
   if(!shoppingListItem.price){
+    const price = realm.create('Price', Price.generate({
+      value
+    }))
     shoppingListItem.item.prices.push(price as Price)
-  } 
-
-  shoppingListItem.price = price as Price
-
-  return price as Price;
+    shoppingListItem.price = price as Price
+  } else {
+    shoppingListItem.price.value = value
+  }
 }

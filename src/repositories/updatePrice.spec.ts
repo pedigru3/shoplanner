@@ -103,4 +103,42 @@ describe('Repositories: UpdatePrice', ()=> {
     })
    })
 
+   it('shold be keep one price', () => {
+    realm.write(() => {
+      const shoppingList = createShoppingList({
+        realm,
+        marketName: 'Mufato',
+        shoppingListName: 'Minha lista de compras',
+        userId: 'user-felipe'
+      })
+
+      const shoppingListItem = createShoppingListItem({
+        itemName: 'Macarrão',
+        realm,
+        shoppingList
+      })
+
+      updatePrice({
+        realm,
+        shoppingListItem,
+        value: 3
+      })
+
+      updatePrice({
+        realm,
+        shoppingListItem,
+        value: 4
+      })
+
+      updatePrice({
+        realm,
+        shoppingListItem,
+        value: 5
+      })
+
+      expect(shoppingListItem.item.prices).toHaveLength(1)
+      expect(shoppingListItem.item.prices[0].value).toBe(5)
+    })
+   })
+
 })

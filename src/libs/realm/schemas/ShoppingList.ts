@@ -1,6 +1,7 @@
 import { Realm } from '@realm/react'
 import { ShoppingListItem } from './ShoppingListItem'
 import { Market } from './Market'
+import { BSON } from 'realm'
 
 type GenerateProps = {
   user_id: string

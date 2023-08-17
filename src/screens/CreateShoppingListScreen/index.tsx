@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
 import { Alert } from 'react-native';
 import { createShoppingList } from '@repositories/createShoppingList';
+import { BSON } from 'realm';
 
 export function CreateShoppingListScreen() {
   const [isCreatingList, setIsCreatingList] = useState(false)
@@ -27,7 +28,6 @@ export function CreateShoppingListScreen() {
       }
       let id: string = ''
       realm.write(() => {
-        realm.deleteAll() //deletar isso aqui
         console.log('i')
         const newShoppingList = createShoppingList({
           marketName,
@@ -35,7 +35,6 @@ export function CreateShoppingListScreen() {
           shoppingListName,
           userId: user.id
         }) 
-        console.log('chegou aqui')
         id = newShoppingList._id
       })
       setShoppingListName('')
