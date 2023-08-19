@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Input } from '@components/Input';
 import { IconButton } from '@components/IconButton';
-import { Alert } from 'react-native';
+import { Alert, Keyboard } from 'react-native';
 import { useQuery, useRealm } from '@libs/realm';
 import { createItem } from '../../repositories/createItem';
 import { ShoppingListItem } from '@libs/realm/schemas/ShoppingListItem';
@@ -44,9 +44,7 @@ export function AddItem({ shoppingList } : Props) {
       })
       
     }
-    newItemRef.current?.blur()
-    newItemRef.current?.focus()
-    
+      newItemRef.current?.focus()   
   }
 
   return (

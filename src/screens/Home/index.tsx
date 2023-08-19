@@ -73,12 +73,14 @@ export function Home() {
           </Container>
           
           <KeyboardAwareFlatList
-            enableOnAndroid={false}
+            removeClippedSubviews={false}
+            enableOnAndroid={true}
             showsVerticalScrollIndicator={false}
             data={shoppingList.shopping_list_items}
-            style={{flex:1, paddingTop: Platform.OS === 'android' ? 20 : 0}}
+            contentContainerStyle={{paddingBottom: 20}}
+            style={{flex:1, marginTop: Platform.OS === 'android' ? 20 : 0}}
             keyExtractor={(item)=> item._id}
-            extraHeight={100}
+            extraHeight={200}
             extraScrollHeight={20}
             renderItem={({item}) => (
                 <ShoppingListItemComponent
