@@ -11,7 +11,7 @@ type GenerateProps = {
 }
 
 export class ShoppingListItem extends Realm.Object<ShoppingListItem> {
-  _id!: string
+  _id!: Realm.BSON.UUID
   quantity!: number
   price?: Price
   item!: Item

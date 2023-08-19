@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, InputName, InputValues } from './styles';
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import { IconButton } from '@components/IconButton';
@@ -23,8 +23,8 @@ export function ShoppingListItemComponent({ shoppingListItem } : Props) {
   const realm = useRealm()
 
   const [name, setName] = useState(shoppingListItem.item.name)
-  const [price, setPrice] = useState<number | undefined>()
-  const [priceMasked, setPriceMasked] = useState(shoppingListItem.price?.value.toString())
+  const price = useRef<number | undefined>()
+  const [priceMasked, setPriceMasked] = useState(shoppingListItem.price?.value.toFixed(2))
   const [quantity, setQuantity] = useState(shoppingListItem.quantity.toString())
 
   function RigthActions(progress: Animated.AnimatedInterpolation<string | number>, dragX: Animated.AnimatedInterpolation<string | number>) {
@@ -72,20 +72,29 @@ export function ShoppingListItemComponent({ shoppingListItem } : Props) {
   }
 
   function handleNameUpdate(){
+    if(name.trim().toUpperCase() === shoppingListItem.item.name){
+      return
+    }
     try {
-      updateItemName({
-        realm,
-        itemName: name,
-        shoppingListItem
+      realm.write(()=> {
+        updateItemName({
+          realm,
+          itemName: name,
+          shoppingListItem
+        })
       })
     } catch (error) {
+      console.log(error)
       Alert.alert('Atualizar nome', 'Erro ao atualizar nome')
     }
     return 
   }
 
   function handlePriceUpdate(){
-    if(!price){
+    if(!price.current){
+      return
+    }
+    if(price.current === shoppingListItem.price?.value){
       return
     }
     try {
@@ -93,14 +102,14 @@ export function ShoppingListItemComponent({ shoppingListItem } : Props) {
         updatePrice({
           realm,
           shoppingListItem,
-          value: price
+          value: price.current!
         })
       })
     } catch (error) {
       console.log(error)
       Alert.alert('Atualizar preço', 'Erro ao atualizar preço')
     }
-    return  showToast(checkPriceChange({ shoppingListItem, currentPrice: price }))
+    return  showToast(checkPriceChange({ shoppingListItem, currentPrice: price.current }))
   }
 
   function handleQuantityUpdate(){
@@ -122,23 +131,28 @@ export function ShoppingListItemComponent({ shoppingListItem } : Props) {
         value={capitalizeFirstLetter(name)}
         onChangeText={setName}
         onSubmitEditing={handleNameUpdate}
+        onBlur={handleNameUpdate}
         autoCorrect={false}
         />
         <InputValues
+        returnKeyType='done'
+        keyboardType='number-pad'
         value={quantity}
         onChangeText={setQuantity}
         onSubmitEditing={handleQuantityUpdate}
+        onBlur={handleQuantityUpdate}
         />
         <MaskInput
         returnKeyType='done'
         value={priceMasked}
         onChangeText={(masked, unmasked) => {
-          setPrice(parseBRLCurrent(masked))
+          price.current = parseBRLCurrent(masked)
           setPriceMasked(unmasked)
         }}
         onSubmitEditing={handlePriceUpdate}
+        onBlur={handlePriceUpdate}
         
-        keyboardType='numeric'
+        keyboardType='number-pad'
         />
       </Container>
     </Swipeable>

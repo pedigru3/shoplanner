@@ -11,26 +11,27 @@ export type CheckPriceChangeResult = {
 }
 
 export function checkPriceChange({ shoppingListItem, currentPrice}:Props): CheckPriceChangeResult{
-  const lastPrice = shoppingListItem.item.prices[shoppingListItem.item.prices.length-1]
   
-  if(shoppingListItem.price?._id.toString() === lastPrice._id.toString()){
+  if(shoppingListItem.item.prices.length <= 1){
     return {
       type: 'info',
       message: `Novo preço adicionado`
     }
   }
 
+  const lastPrice = shoppingListItem.item.prices[shoppingListItem.item.prices.length-2]
+
   if(currentPrice > lastPrice.value){
     return {
       type: 'error',
-      message: `R$ ${currentPrice - lastPrice.value} mais caro que a última compra`
+      message: `R$ ${(currentPrice - lastPrice.value).toFixed(2)} mais caro que a última compra`
     }
   }
   
   if(currentPrice < lastPrice.value){
     return {
       type: 'success',
-      message: `R$ ${lastPrice.value - currentPrice} mais barato que a última compra`
+      message: `R$ ${(lastPrice.value - currentPrice).toFixed(2)} mais barato que a última compra`
     }
   }
   

@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { Container } from './styles';
-import { HStack } from 'native-base';
+import React, { useRef, useState } from 'react';
 import { Input } from '@components/Input';
 import { IconButton } from '@components/IconButton';
 import { Alert } from 'react-native';
@@ -10,12 +8,17 @@ import { ShoppingListItem } from '@libs/realm/schemas/ShoppingListItem';
 import { Item } from '@libs/realm/schemas/Item';
 import { ShoppingList } from '@libs/realm/schemas/ShoppingList';
 
+import { Container, HStack } from './styles';
+import { TextInput } from 'react-native-gesture-handler';
+
 type Props = {
   shoppingList: ShoppingList
 }
 
 export function AddItem({ shoppingList } : Props) {
   const [itemName, setItemName] = useState('')
+
+  const newItemRef = useRef<TextInput>(null)
 
   const realm = useRealm()
 
@@ -39,7 +42,10 @@ export function AddItem({ shoppingList } : Props) {
         }))
         shoppingList.shopping_list_items!.push(newShoppingListItem as ShoppingListItem)
       })
+      
     }
+    newItemRef.current?.blur()
+    newItemRef.current?.focus()
     
   }
 
@@ -47,10 +53,12 @@ export function AddItem({ shoppingList } : Props) {
     <Container>
       <HStack >
         <Input 
+          ref={newItemRef}
           style={{marginBottom: 16}}
           placeholder='Novo item'
           onChangeText={setItemName}
           value={itemName}
+          onSubmitEditing={handleNewItem}
         />
         <IconButton
           iconName='add'

@@ -36,10 +36,6 @@ export function AppRoutes(){
 
   const {COLORS} = useTheme()
 
-  useEffect(() => {
-    console.log(id)
-  }, [id])
-
   if (isLoading){
     return <LoadingIndicator/>
   } else {

@@ -1,12 +1,11 @@
 import { Realm } from '@realm/react'
-import { BSON } from 'realm'
 
 type GenerateProps = {
   value: number
 }
 
 export class Price extends Realm.Object<Price> {
-  _id!: string
+  _id!: Realm.BSON.UUID;
   value!: number
   created_at!: Date
   updated_at!: Date

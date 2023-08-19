@@ -4,7 +4,7 @@ import { Market } from './Market'
 import { BSON } from 'realm'
 
 type GenerateProps = {
-  user_id: string
+  user_id: Realm.BSON.UUID
   name: string
   market: Market
   shopping_list_items?: Realm.List<ShoppingListItem>;
@@ -33,8 +33,6 @@ export class ShoppingList extends Realm.Object<ShoppingList> {
 
   static schema = {
     name: 'ShoppingList',
-    primaryKey: '_id',
-
     properties: {
       _id: 'uuid',
       user_id: {
@@ -46,7 +44,8 @@ export class ShoppingList extends Realm.Object<ShoppingList> {
       name: 'string',
       created_at: 'date',
       updated_at: 'date'
-    }
+    },
+    primaryKey: '_id',
   }
 }
 

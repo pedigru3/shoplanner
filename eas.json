@@ -1,0 +1,17 @@
+{
+  "cli": {
+    "version": ">= 4.1.2"
+  },
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "ANDROID_CLIENT_ID": "590619170189-bg09o2cvg7vnhvaq4dttvpqq40tgf57v.apps.googleusercontent.com",
+        "IOS_CLIENT_ID": "590619170189-cbehq5qgtcongj2c0jqih0aicjqljnp0.apps.googleusercontent.com",
+        "REAML_APP_ID": "application-0-snoqg"
+      }
+    }
+  }
+}

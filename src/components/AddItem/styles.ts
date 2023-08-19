@@ -5,3 +5,7 @@ export const Container = styled.View`
   padding-right: 32px;
   padding-top: 16px;
 `;
+
+export const HStack = styled.View`
+  flex-direction: row;
+`

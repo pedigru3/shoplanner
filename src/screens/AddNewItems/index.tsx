@@ -13,6 +13,7 @@ import { ShoppingListItem } from '@libs/realm/schemas/ShoppingListItem';
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
 import { createItem } from '../../repositories/createItem';
 import { ShoppingListContext } from '../../context/ShoppingListContext';
+import { BSON } from 'realm';
 
 type RouteParamsProps = {
   id: string
@@ -29,7 +30,6 @@ export function AddNewItems() {
   const [isCreatingList, setIsCreatingList] = useState(false)
 
   const { id } = route.params as RouteParamsProps
-  const storagedItems = useQuery(Item)
 
   const shoppingList = useObject(ShoppingList, id)
 

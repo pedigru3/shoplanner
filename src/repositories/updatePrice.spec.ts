@@ -136,8 +136,34 @@ describe('Repositories: UpdatePrice', ()=> {
         value: 5
       })
 
-      expect(shoppingListItem.item.prices).toHaveLength(1)
+      const shoppingList2 = createShoppingList({
+        realm,
+        marketName: 'Mufato',
+        shoppingListName: 'Minha lista de compras',
+        userId: 'user-felipe'
+      })
+
+      const shoppingListItem2 = createShoppingListItem({
+        itemName: 'Macarrão',
+        realm,
+        shoppingList: shoppingList2
+      })
+
+      updatePrice({
+        realm,
+        shoppingListItem: shoppingListItem2,
+        value: 3
+      })
+
+      updatePrice({
+        realm,
+        shoppingListItem: shoppingListItem2,
+        value: 7
+      })
+
+      expect(shoppingListItem.item.prices).toHaveLength(2)
       expect(shoppingListItem.item.prices[0].value).toBe(5)
+      expect(shoppingListItem.item.prices[1].value).toBe(7)
     })
    })
 

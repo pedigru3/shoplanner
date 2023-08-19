@@ -17,12 +17,12 @@ export function createShoppingList({realm, shoppingListName, marketName, userId}
     market = marketAlreadyExists
   } else {
     market = realm.create<Market>('Market', Market.generate({
-      name: marketName.toUpperCase()
+      name: marketName.trim().toUpperCase()
     }))
   }
 
   const shoppingList = realm.create('ShoppingList', ShoppingList.generate({
-    name: shoppingListName,
+    name: shoppingListName.trim(),
     market: market,
     user_id: userId,
   }))

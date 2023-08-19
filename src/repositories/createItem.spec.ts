@@ -58,4 +58,21 @@ describe('Repositories: CreateItem', ()=> {
      expect(realm.objects<Item>('Item').length).toBe(1)
     })
    })
+
+   it('shold be remove write spaces', () => {
+    realm.write(() => {
+     const item1 = createItem({
+       itemName: ' FEIJÃO',
+       realm
+     })
+ 
+     const item2 = createItem({
+       itemName: 'FEIJÃO  ',
+       realm
+     })
+ 
+     expect(item1.name).toBe(item2.name)
+     expect(realm.objects<Item>('Item').length).toBe(1)
+    })
+   })
 })

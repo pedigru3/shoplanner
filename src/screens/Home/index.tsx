@@ -11,26 +11,26 @@ import { AddItem } from '@components/AddItem';
 import { useShoppingList } from '@hooks/useShoppingList';
 import { BSON } from 'realm';
 import { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 
 export function Home() {
   const user = useUser()
 
-  const { id, saveId, isLoading } = useShoppingList()
+  const { id, isLoading } = useShoppingList()
   const [shoppingList, setShoppingList] = useState<ShoppingList | null>(null)
-
   const realm = useRealm()
 
   function getTotal(shoppingList: ShoppingList){
     let sum:number = 0;
     shoppingList.shopping_list_items?.forEach((item) => {
-       sum += item.price?.value ?? 0
+       sum += (item.price?.value ?? 0) * item.quantity
     })
     return sum.toFixed(2);
   }
 
   async function getShoppingList(){
      if (id != ''){
-      const result = realm.objects<ShoppingList>('ShoppingList').filtered('_id = $0', id)[0]
+      const result = realm.objects<ShoppingList>('ShoppingList').filtered('_id = $0', new BSON.UUID(id))[0]
       setShoppingList(result as ShoppingList)
      } else {
       setShoppingList(null)
@@ -44,7 +44,7 @@ export function Home() {
   }, [])
 
   useEffect(() => {
-    getShoppingList()
+      getShoppingList()
   }, [])
 
 
@@ -73,10 +73,10 @@ export function Home() {
           </Container>
           
           <KeyboardAwareFlatList
-            enableOnAndroid
+            enableOnAndroid={false}
             showsVerticalScrollIndicator={false}
             data={shoppingList.shopping_list_items}
-            style={{flex:1}}
+            style={{flex:1, paddingTop: Platform.OS === 'android' ? 20 : 0}}
             keyExtractor={(item)=> item._id}
             extraHeight={100}
             extraScrollHeight={20}

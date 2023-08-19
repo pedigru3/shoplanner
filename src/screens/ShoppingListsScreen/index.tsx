@@ -10,11 +10,13 @@ import { useNavigation } from '@react-navigation/native';
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
 import { Alert } from 'react-native';
 import { useShoppingList } from '@hooks/useShoppingList';
+import { useUser } from '@realm/react';
 
 export function ShoppingListsScreen() {
   const {id:shoppingListId, saveId} = useShoppingList()
+  const user = useUser()
 
-  const shoppingLists = useQuery(ShoppingList)
+  const shoppingLists = useQuery(ShoppingList).filtered('user_id = $0', user.id)
 
   const navigation = useNavigation<AppNavigatorRoutesProps>()
 
