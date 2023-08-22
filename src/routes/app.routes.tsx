@@ -9,12 +9,8 @@ import { useTheme } from 'styled-components';
 import { Text } from 'native-base';
 
 import { MaterialIcons } from '@expo/vector-icons'
-import { getShoppingListId } from '@storage/shoppingList/getShoppingListId';
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { LoadingIndicator } from '@components/Loading/styles';
-import { useFocusEffect } from '@react-navigation/native';
 import { useShoppingList } from '@hooks/useShoppingList';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 type AppRoutes = {

@@ -32,8 +32,9 @@ describe('Repositories: CreateShoppingList', ()=> {
 
 
   it('shold be able to create two shopping lists', () => {
+    let shoppingList: ShoppingList;
     realm.write(()=> {
-      const shoppingList1 = createShoppingList({
+      shoppingList = createShoppingList({
         realm,
         marketName: 'Mufato',
         shoppingListName: 'Minha primeira lista',
@@ -47,12 +48,11 @@ describe('Repositories: CreateShoppingList', ()=> {
         userId: 'user_felipe'
       })
 
-      expect(shoppingList1.name).toBe('Minha primeira lista')
-      expect(shoppingList1.market.name).toBe('MUFATO')
+      expect(shoppingList.name).toBe('Minha primeira lista')
+      expect(shoppingList.market.name).toBe('MUFATO')
       expect(shoppingList2.name).toBe('Minha segunda lista')
       expect(shoppingList2.market.name).toBe('MUFATO')
       expect(realm.objects<Market>('Market')).toHaveLength(1)
     })
   })
-
 })

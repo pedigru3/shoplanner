@@ -25,7 +25,11 @@ export function ShoppingListContextProvider({ children }: ShoppingListContextPro
 
   async function getId(){
     const id = await getShoppingListId()
-    setId(id)
+    if (id === null){
+      setId('')
+    } else {
+      setId(id)
+    }
     setIsLoading(false)
   }
 

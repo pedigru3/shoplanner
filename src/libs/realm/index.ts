@@ -14,6 +14,6 @@ export const {
   useRealm
 } = createRealmContext({
   schema: realmSchema,
-  schemaVersion: 3
+  schemaVersion: 4
 })
 

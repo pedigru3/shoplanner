@@ -4,7 +4,7 @@ import { Market } from './Market'
 import { BSON } from 'realm'
 
 type GenerateProps = {
-  user_id: Realm.BSON.UUID
+  user_id: string
   name: string
   market: Market
   shopping_list_items?: Realm.List<ShoppingListItem>;
