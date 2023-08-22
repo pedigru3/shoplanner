@@ -13,7 +13,7 @@ export const Input = forwardRef<TextInput, Props>(( {...rest}, ref ) => {
   return (
     <Container 
       ref={ref}
-      placeholderTextColor={COLORS.GRAY_600}
+      placeholderTextColor={COLORS.GRAY_300}
       {...rest}/>
   );
 })

@@ -10,6 +10,7 @@ import { ShoppingList } from '@libs/realm/schemas/ShoppingList';
 
 import { Container, HStack } from './styles';
 import { TextInput } from 'react-native-gesture-handler';
+import { SuggestionsInput } from '@components/SuggestionsInput';
 
 type Props = {
   shoppingList: ShoppingList
@@ -50,13 +51,10 @@ export function AddItem({ shoppingList } : Props) {
   return (
     <Container>
       <HStack >
-        <Input 
-          ref={newItemRef}
-          style={{marginBottom: 16}}
-          placeholder='Novo item'
-          onChangeText={setItemName}
-          value={itemName}
-          onSubmitEditing={handleNewItem}
+        <SuggestionsInput
+          type='Item'
+          onBlur={()=> {}}
+          placeHolder='Novo item: ex. Arroz'
         />
         <IconButton
           iconName='add'

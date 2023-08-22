@@ -8,7 +8,7 @@ export const Container = styled(TextInput)`
 
   border-color: ${({ theme }) => theme.COLORS.RED_500};
   border-width: 1px;
-  border-radius: 20px;
+  border-radius: 10px;
 
   ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.LG}px;

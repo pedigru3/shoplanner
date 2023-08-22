@@ -13,6 +13,7 @@ import { View } from 'native-base';
 import { TextInput } from 'react-native-gesture-handler';
 
 import { TouchableWithoutFeedback } from 'react-native';
+import { SuggestionsInput } from '@components/SuggestionsInput';
 
 export function CreateShoppingListScreen() {
   const [isCreatingList, setIsCreatingList] = useState(false)
@@ -78,16 +79,17 @@ export function CreateShoppingListScreen() {
           value={shoppingListName}
           onSubmitEditing={()=> marketNameRef.current?.focus()}
       />
+      
       <Space/>
 
-      <Input
-          ref={marketNameRef}
-          placeholder='Nome do Mercado'
-          onChangeText={(name) => setMarketName(name)}
-          value={marketName}
-      />
-      
-
+      <View marginBottom={12}>
+        <SuggestionsInput
+          placeHolder='Nome do mercado'
+          type='Market'
+          onBlur={setMarketName}
+        />
+      </View>
+     
       
       {shoppingListName.length > 3 && marketName.length > 3 &&
         <Button 
