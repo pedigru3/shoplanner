@@ -82,6 +82,7 @@ export function SuggestionsInput({type, onBlur, placeHolder, hasIcon=false, onPr
             style: {
               margin: 0,
               borderWidth: 0,
+              paddingBottom: 20
             },
             renderItem: ({ item }) => (
               <Button

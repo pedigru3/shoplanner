@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Body, Container, Space, Title } from './styles';
-import { Input } from '../../components/Input';
 import { Item as ItemComponent } from '../../components/Item';
-import { FlatList } from 'native-base';
+import { FlatList, View } from 'native-base';
 import { Alert } from 'react-native';
 import { Button } from '../../components/Button';
 import { useRealm, useQuery, useObject } from '../../libs/realm';
@@ -13,7 +12,7 @@ import { ShoppingListItem } from '@libs/realm/schemas/ShoppingListItem';
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
 import { createItem } from '../../repositories/createItem';
 import { ShoppingListContext } from '../../context/ShoppingListContext';
-import { BSON } from 'realm';
+import { SuggestionsInput } from '@components/SuggestionsInput';
 
 type RouteParamsProps = {
   id: string
@@ -25,7 +24,6 @@ export function AddNewItems() {
 
   const { saveId } = useContext(ShoppingListContext)
 
-  const [itemName, setItemName] = useState('')
   const [items, setItems] = useState<Item[]>([])
   const [isCreatingList, setIsCreatingList] = useState(false)
 
@@ -35,7 +33,7 @@ export function AddNewItems() {
 
   const realm = useRealm()
 
-  function handleNewItem(){
+  function handleNewItem(itemName:string){
     if (itemName === ''){
       return
     }
@@ -56,7 +54,6 @@ export function AddNewItems() {
         Alert.alert('Criar item', 'Erro na criação do item')
       }
     
-    setItemName('')
   }
 
   function handleRemoveItem(item: Item){
@@ -93,12 +90,14 @@ export function AddNewItems() {
       <Body>Qual item está faltando em casa?</Body>
       <Space/>
 
-      <Input
-          placeholder='Ex.: Arroz'
-          onChangeText={(name) => setItemName(name)}
-          onSubmitEditing={handleNewItem}
-          value={itemName}
-      />
+      <View h={12}>
+        <SuggestionsInput
+            type='Item'
+            placeHolder='Ex. Arroz Camil 5kg'
+            hasIcon
+            onPressIcon={handleNewItem}
+          />
+      </View>
       <Space/>
 
       <FlatList
