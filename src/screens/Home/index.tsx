@@ -73,6 +73,7 @@ export function Home() {
           </Container>
           
           <KeyboardAwareFlatList
+            keyboardShouldPersistTaps='always'
             removeClippedSubviews={false}
             enableOnAndroid={true}
             showsVerticalScrollIndicator={false}

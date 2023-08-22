@@ -11,19 +11,17 @@ import { ShoppingList } from '@libs/realm/schemas/ShoppingList';
 import { Container, HStack } from './styles';
 import { TextInput } from 'react-native-gesture-handler';
 import { SuggestionsInput } from '@components/SuggestionsInput';
+import { View } from 'native-base';
 
 type Props = {
   shoppingList: ShoppingList
 }
 
 export function AddItem({ shoppingList } : Props) {
-  const [itemName, setItemName] = useState('')
-
-  const newItemRef = useRef<TextInput>(null)
 
   const realm = useRealm()
 
-  function handleNewItem(){
+  function handleNewItem(itemName: string){
     if (itemName === ''){
       return Alert.alert('Novo item', 'Nome inválido')
     }
@@ -45,20 +43,16 @@ export function AddItem({ shoppingList } : Props) {
       })
       
     }
-      newItemRef.current?.focus()   
   }
 
   return (
     <Container>
-      <HStack >
+      <HStack style={{height: 50, position:'relative'}}>
         <SuggestionsInput
           type='Item'
-          onBlur={()=> {}}
           placeHolder='Novo item: ex. Arroz'
-        />
-        <IconButton
-          iconName='add'
-          onPress={handleNewItem}
+          hasIcon
+          onPressIcon={handleNewItem}
         />
       </HStack>
     </Container>
